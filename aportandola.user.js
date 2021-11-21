@@ -11,6 +11,19 @@
 (function() {
   'use strict';
 
+  const postHistory = {
+    keyPrefix: 'apotandola',
+    generateKey: function (url) {
+      return `${this.keyPrefix}-${url}`;
+    },
+    get: function (url) {
+      return window.localStorage.getItem(this.generateKey(url)) || '';
+    },
+    set: function (url, message) {
+      window.localStorage.setItem(this.generateKey(url), message);
+    }
+  }
+
   const lib = {
     style: function (selector, rules) {
       const styleTag = document.createElement('style');
@@ -186,6 +199,18 @@
 
   // #endregion
 
+  const prefillEditor = function () {
+    const textEditor = ui.editor();
+    textEditor.value = postHistory.get(window.location.pathname);
+  }
+
+  const listenEditorUpdates = function () {
+    const textEditor = ui.editor();
+    textEditor.addEventListener('blur', function (event) {
+      postHistory.set(window.location.pathname, event.target.value);
+    });
+  }
+
   const onEditorShow = function (cb) {
     ui.editorInput().addEventListener('click', () => {
       setTimeout(cb);
@@ -200,6 +225,9 @@
 
   const buildMenuBar = function () {
     onEditorShow(() => {
+      prefillEditor();
+      listenEditorUpdates();
+
       renderImageButton();
 
       ui.appendMenuButton(ui.buildDivider());
