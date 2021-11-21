@@ -14,7 +14,7 @@
   'use strict';
 
   const postHistory = {
-    keyPrefix: 'apotandola',
+    keyPrefix: 'aportandola',
     generateKey: function (url) {
       return `${this.keyPrefix}-${url}`;
     },
