@@ -40,6 +40,9 @@
     markdown: {
       image: function (imageName, imagePath) {
         return `![${imageName}](${imagePath})`;
+      },
+      horizontalLine: function () {
+        return `\n---`;
       }
     }
   }
@@ -144,6 +147,16 @@
     ui.removeMenuButton(ui.getOriginalButton('image'));
   }
 
+  const renderHorizontalRuleButton = function () {
+    const horizontalRuleButton = ui.buildButton();
+    horizontalRuleButton.innerHTML = `<i class="fa fa-ruler-horizontal"></i>`;
+    horizontalRuleButton.addEventListener('click', function () {
+      lib.appendTextEditor(lib.markdown.horizontalLine());
+    }, { passive: true });
+
+    ui.appendMenuButton(horizontalRuleButton);
+  }
+
   // #endregion
 
   const onEditorShow = function (cb) {
@@ -161,6 +174,8 @@
   const buildMenuBar = function () {
     onEditorShow(() => {
       renderImageButton();
+      renderHorizontalRuleButton();
+
       onEditorHide(buildMenuBar);
     });
   }
