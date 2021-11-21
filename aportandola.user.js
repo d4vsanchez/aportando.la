@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Aportando.la
 // @namespace    http://platzi.com/
-// @version      0.2
+// @version      0.3
 // @description  Mejora el editor de aportes de Platzi en los cursos
 // @author       David Sánchez
 // @match        https://platzi.com/clases/*
