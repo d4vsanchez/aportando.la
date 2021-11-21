@@ -201,6 +201,9 @@
   const buildMenuBar = function () {
     onEditorShow(() => {
       renderImageButton();
+
+      ui.appendMenuButton(ui.buildDivider());
+
       renderHorizontalRuleButton();
       renderStrikethroughButton();
 
