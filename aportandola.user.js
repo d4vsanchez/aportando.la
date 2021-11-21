@@ -32,17 +32,34 @@
       return editor.value.substring(editor.selectionStart, editor.selectionEnd);
     },
     appendTextEditor: function (text) {
+      let addedText = text;
       const textEditor = ui.editor();
+      const selectedText = this.getSelectedText(textEditor);
 
-      textEditor.setRangeText(text);
+      const hasPlaceholder = text.indexOf(this.markdown.placeholder) >= 0;
+      const boundaries = text.split(this.markdown.placeholder);
+
+      if (hasPlaceholder) {
+        const startBoundary = boundaries[0] || '';
+        const endBoundary = boundaries[1] || '';
+        addedText = `${startBoundary}${selectedText}${endBoundary}`;
+      }
+
+      textEditor.setRangeText(addedText);
       textEditor.focus();
+      textEditor.selectionEnd = textEditor.selectionStart + selectedText.length + (boundaries[0].length || 0);
+      textEditor.selectionStart = textEditor.selectionEnd;
     },
     markdown: {
+      placeholder: '{{placeholder}}',
       image: function (imageName, imagePath) {
         return `![${imageName}](${imagePath})`;
       },
       horizontalLine: function () {
         return `\n---`;
+      },
+      strikethrough: function () {
+        return `~~${this.placeholder}~~`;
       }
     }
   }
@@ -157,6 +174,16 @@
     ui.appendMenuButton(horizontalRuleButton);
   }
 
+  const renderStrikethroughButton = function () {
+    const striketroughButton = ui.buildButton();
+    striketroughButton.innerHTML = `<i class="fa fa-strikethrough"></i>`;
+    striketroughButton.addEventListener('click', function () {
+      lib.appendTextEditor(lib.markdown.strikethrough());
+    });
+
+    ui.appendMenuButton(striketroughButton);
+  }
+
   // #endregion
 
   const onEditorShow = function (cb) {
@@ -175,6 +202,7 @@
     onEditorShow(() => {
       renderImageButton();
       renderHorizontalRuleButton();
+      renderStrikethroughButton();
 
       onEditorHide(buildMenuBar);
     });
