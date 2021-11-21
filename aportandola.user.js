@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         Aportando.la
 // @namespace    http://platzi.com/
-// @version      0.1
+// @version      0.2
 // @description  Mejora el editor de aportes de Platzi en los cursos
 // @author       David Sánchez
 // @match        https://platzi.com/clases/*
 // @require      https://kit.fontawesome.com/ee48b15041.js
+// @downloadURL  https://github.com/d4vsanchez/aportando.la/raw/main/aportandola.user.js
+// @updateURL    https://github.com/d4vsanchez/aportando.la/raw/main/aportandola.user.js
 // ==/UserScript==
 
 (function() {
